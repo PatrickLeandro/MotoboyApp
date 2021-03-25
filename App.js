@@ -2,12 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const datas = [
+const datas = [] // array que conterá as informações das entregas para testes pegue as informações do comentário abaixo e coloque dentro do array;
 
- 
+/*
+{
+  id: "1", date: "22/03/2021", endereço: "Tereza Machado, 121", valorEntrega: 3, 
+},
 
-];
+{ 
+  id: "2", date: "22/03/2021", endereço: "Guanahani , 181", valorEntrega: 5, 
+},
 
+{
+  id: "3", date: "22/03/2021", endereço: "João Batista Soares de Queiroz Jr, 1354", valorEntrega: 1, 
+},
+
+{
+  id: "4", date: "22/03/2021", endereço: "Osaka, 38", valorEntrega: 8, 
+},
+
+{
+  id: "5", date: "22/03/2021", endereço: "Tereza de Jesus Silva, 466", valorEntrega: 8, 
+},
+*/
 
 export default function App() {
 
@@ -15,9 +32,9 @@ export default function App() {
 
   const [ data, setData ] = useState([]);
 
-  const [endereco, setEndereco] = useState('')
-  const [valorTaxa, setValorTaxa] = useState('')
-  const [pageApp, setPageApp] = useState(true)
+  const [endereco, setEndereco] = useState('')  // constante com valor de endereço, sera recebida pelo input na tela add
+  const [valorTaxa, setValorTaxa] = useState('') // constante com valor da taxa, sera recebida pelo input na tela add
+  const [pageApp, setPageApp] = useState(true) // constante condicional que ao ser mudada para false renderiza a tela de adicionar entrega
 
 
   var diaSem = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado']
@@ -140,7 +157,7 @@ export default function App() {
         :      //#################  Abaixo page Adicionar entrega  ################# 
 
     
-      <View style={styles.viewAdd}>
+      <View style={styles.containerAdd}>
           
 
 
@@ -168,12 +185,14 @@ export default function App() {
                 <TouchableOpacity style={styles.btnAddListCancel} onPress={  cancel }>
                   <Text style={styles.btnTxt}>Cancelar</Text>
                 </TouchableOpacity>
+                {/* Acima botão de cancelar caso o usuário não queira adicionar nenhuma entrega */}
 
 
 
                 <TouchableOpacity style={styles.btnAddList} onPress={  addToList }>
                   <Text style={styles.btnTxt}>Adicionar</Text>
                 </TouchableOpacity>
+                {/* Acima botão para adicionar entrega, a função chamada verifica se os campos foram preenchidos */}
 
           </View>
       </View>
@@ -194,7 +213,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  header:{
+  header:{                               //header da page home
     width: 100, 
     height: 100,
     borderRadius: 200,
@@ -205,24 +224,24 @@ const styles = StyleSheet.create({
     marginVertical: 25
 
   },
-  viewAdd:{
+  containerAdd:{                               //View container da tela add
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  viewBtn:{
+  viewBtn:{                               // View de botões na tela add
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
 
-  totalEntregas:{
+  totalEntregas:{                               // text com total de entregas tela HOME
     fontSize: 55,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
   },
 
-  btnAdd:{
+  btnAdd:{                               //botão para adicionar uma nova entrega na tela HOME
     position: 'absolute',
     bottom: 58,
     right: 30,
@@ -236,14 +255,15 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
 
-  btnTxt:{
+  btnTxt:{                               //textos de todos os botões
     fontSize: 20,
     position: 'relative',
     bottom: 1,
     color: 'white',
     textAlign: 'center',
   },
-  btnAddList:{
+
+  btnAddList:{                               //Botão de adicionar na tela add
     width: '30%',
     borderWidth: 3,
     borderRadius: 200,
@@ -251,7 +271,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20
     
   },
-  btnAddListCancel:{
+  btnAddListCancel:{                               //Botão de cancelar na tela add
     width: '30%',
     borderWidth: 1,
     borderRadius: 200,
