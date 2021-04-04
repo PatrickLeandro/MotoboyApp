@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons,Ionicons  } from '@expo/vector-icons';
 
 import Menu from '../../components/Menu';
+import Slider from '@react-native-community/slider'
 
 const datas = [] // array que conterá as informações das entregas para testes pegue as informações do comentário abaixo e coloque dentro do array;
 
@@ -31,14 +32,26 @@ const datas = [] // array que conterá as informações das entregas para testes
 
 export default function index() {
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(40);
 
   const [ data, setData ] = useState([]);
 
   const [endereco, setEndereco] = useState('')  // constante com valor de endereço, sera recebida pelo input na tela add
-  const [valorTaxa, setValorTaxa] = useState('') // constante com valor da taxa, sera recebida pelo input na tela add
+  const [valorTaxa, setValorTaxa] = useState(3) // constante com valor da taxa, sera recebida pelo input na tela add
   const [pageApp, setPageApp] = useState(true) // constante condicional que ao ser mudada para false renderiza a tela de adicionar entrega
   const [contadorEntregas, setContadorEntregas] = useState(0) //constante que conta o número de entregas feitas
+  const [diaria, setDiaria] = useState(40) //constante que controla a diaria
+
+
+
+  var contadorDiaria = () => {
+     setDiaria(diaria+5);
+     if (diaria >= 100) {
+       setDiaria(30);
+    }
+  }
+
+  
 
 
   var diaSem = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado']
@@ -84,10 +97,7 @@ export default function index() {
   function addToList() {
     var idRandomico = Math.random();
 
-    if (valorTaxa == '') {
-      alert('Verifique o campo: Valor da taxa') // Verifica se o campo taxa foi preenchido
-
-    } else if (endereco == ''){
+     if (endereco == ''){
       alert('Verifique o campo: Comanda ou endereço') // Verifica se o campo endereço foi preenchido
 
     }else{ // caso todos os campos sejam preenchidos então:
@@ -102,7 +112,7 @@ export default function index() {
       setData([...data]);                                 
       setTotal(total+ Number(valorTaxa))                  // altera o valor atual de total 
       setEndereco('');                                    // retornar o valor inicial de endereço
-      setValorTaxa('');                                   // retornar o valor inicial de taxa
+      setValorTaxa(3);                                   // retornar o valor inicial de taxa
       setPageApp(true)                                    // retorna o valor de page app e volta para a tela inicial
       setContadorEntregas(contadorEntregas + 1)           // Soma mais uma entrega realizada
 
@@ -131,8 +141,9 @@ export default function index() {
       colors={['#2d3436', '#636e72']} 
       style={styles.linear}
     >
-      <Menu />
-      <Text style={styles.date}>{ getCurrentDate() }</Text> 
+      <TouchableOpacity onPress={contadorDiaria}>
+                <Text style={styles.date}>{ getCurrentDate() }</Text> 
+      </TouchableOpacity>
       {/* A função chamada através deste text retorna a data atual no formato (diaDaSemana - dd/mm/aaaa )*/}
       
 
@@ -141,8 +152,9 @@ export default function index() {
       
       //#################  Abaixo page HOME ################# 
         <View style={styles.container}>
+          <Menu />
             <View style={styles.header}>
-                    <Text style={styles.totalEntregas}>{ total }</Text>
+                    <Text style={styles.totalEntregas}>{ total+diaria }</Text>
             </View>
 
             <FlatList 
@@ -156,8 +168,10 @@ export default function index() {
             </TouchableOpacity>
 
             <View style={styles.fechamento}>
-            <Text style={styles.entregasRealizadas}> Entregas realizadas:   {contadorEntregas}</Text>
-            <Text style={styles.entregasRealizadas}> Valor entregas realizadas:   R$ {total}</Text>
+                  <Text style={styles.entregasRealizadas}> {contadorEntregas} - Entregas realizadas</Text>
+                  <Text style={styles.entregasRealizadas}> Valor total das entregas:   R$ {total},00</Text>
+                  <Text style={styles.entregasRealizadas}> Valor da diária   R$ {diaria},00</Text>
+                  <Text style={styles.entregasRealizadas}> Fechamento previsto:   R$ {total+diaria },00</Text>
             </View>
         </View> 
         
@@ -177,15 +191,26 @@ export default function index() {
               placeholder="Comanda ou endereço"
               placeholderTextColor='#b2bec3'
             />
+
+
+
+            <View style={styles.viewSlider}>
+              <Text style={styles.txtSlider}>Valor da taxa R$ {valorTaxa},00</Text>
+
+
+              <Slider 
+                style={{height: 50,}}
+                minimumValue={1}
+                maximumValue={20}
+                value={valorTaxa}
+                onValueChange={(valor)=>setValorTaxa(valor.toFixed(0)) }
+                maximumTrackTintColor='#FFFFFF'
+                thumbTintColor='#FFFFFF'
+              />
+            </View>
+
             
-            <TextInput                  // este input solicita o valor da taxa da entrega feita
-              style={styles.input}
-              value={valorTaxa}
-              onChangeText={(valor) => setValorTaxa(valor)}
-              placeholder="Valor da taxa"
-              placeholderTextColor='#b2bec3'
-              keyboardType="numeric"
-            />
+            
           </View>
 
           <View style={styles.viewBtn}>
@@ -320,10 +345,9 @@ const styles = StyleSheet.create({
   },
   viewInput:{                              // View que ficam os campos de input na tela add
     width: '95%',
-    marginBottom: 60,
     alignItems: 'center',
     marginBottom: 150,
-    marginTop: -100,
+    marginTop: -30,
 
   },
   date:{                              // Texto de data contido na parte de cima da tela
@@ -341,6 +365,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     color: 'white',
+  },
+  viewSlider:{
+    width: '95%',
+    marginTop: 50,
+    
+  },
+  txtSlider:{
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center',
   },
 
 });

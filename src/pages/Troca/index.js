@@ -10,7 +10,7 @@ const index = () => {
         colors={['#2d3436', '#636e72']}
          style={styles.container}>
             <Menu />
-            <Text>Aqui vai ser uma page onde o usuário pode adicionar quando foi a última troca de oleo, relação, pneus e etc... {'\n'}{'\n'}Para um maior controle sobre sua moto</Text>
+            <Text style={styles.txt}>Aqui vai ser uma page onde o usuário pode adicionar quando foi a última troca de oleo, relação, pneus e etc... {'\n'}{'\n'}Para um maior controle sobre sua moto</Text>
         </LinearGradient>
     )
 }
@@ -23,5 +23,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-    }
+    },
+    txt:{
+        color: 'white',
+        fontSize: 16,
+    },
 })

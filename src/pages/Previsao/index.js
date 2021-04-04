@@ -10,7 +10,7 @@ const index = () => {
         colors={['#2d3436', '#636e72']}
          style={styles.container}>
             <Menu />
-            <Text>Aqui vai ter a previsão do tempo</Text>
+            <Text style={styles.txt}>Aqui vai ter a previsão do tempo</Text>
         </LinearGradient>
     )
 }
@@ -22,5 +22,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    txt:{
+        color: 'white',
+        fontSize: 16,
+    },
 })
